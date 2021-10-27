@@ -24,7 +24,7 @@ async function hashPassword(password) {
 		let derivedKey = await asyncPBKDF2(password, uniqueSalt, iterations, 64, algo);
 		let base64pwdHash = derivedKey.toString('base64');
 		hash = [hashHeader, base64pwdHash].join('.');
-		return Promise.resolve({ hash });
+		return { hash };
 	} catch (err) {
 		return Promise.reject({ err: err.message });
 	}
@@ -47,7 +47,7 @@ async function comparePassword(plainTxtPwd, hashToCompare) {
 
 		isValid = timingSafeEqual(newDerivedKey, bufferOfHash);
 
-		return Promise.resolve({ isValid });
+		return { isValid };
 	} catch (err) {
 		return Promise.reject({ err: err.message });
 	}
