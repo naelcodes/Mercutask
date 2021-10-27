@@ -1,10 +1,6 @@
 'use strict';
 //regex with two capture groups : duration & id
-const regexSec = /^(?<duration>-?\d+(?:\.\d)?)(?<id>s)$/;
-const regexMin = /^(?<duration>-?\d+(?:\.\d)?)(?<id>m)$/;
-const regexHrs = /^(?<duration>-?\d+(?:\.\d)?)(?<id>h)$/;
-const regexDay = /^(?<duration>-?\d+(?:\.\d)?)(?<id>d)$/;
-const regexTab = [regexSec, regexMin, regexHrs, regexDay];
+const regex = /^(?<duration>-?\d+(?:\.\d)?)(?<id>s|m|h|d)$/;
 
 function getMilliseconds(duration) {
 	if (typeof duration !== 'string') {
@@ -44,10 +40,8 @@ function getMilliseconds(duration) {
 
 function getDurationInfo(duration) {
 	let info;
-	for (let regex of regexTab) {
-		if (regex.test(duration)) {
-			info = { ...regex.exec(duration).groups };
-		}
+	if (regex.test(duration)) {
+		info = { ...regex.exec(duration).groups };
 	}
 	return info;
 }
